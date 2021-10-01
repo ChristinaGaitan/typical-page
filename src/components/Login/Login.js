@@ -12,9 +12,20 @@ const Login = (props) => {
   const [formIsValid, setFormIsValid] = useState(false);
 
   useEffect(() => {
-    setFormIsValid(
-      enteredEmail.includes('@') && enteredPassword.trim().length > 6
-    )
+    // Debouncing
+    const identifier = setTimeout(() => {
+      console.log('Checking validity!');
+      setFormIsValid(
+        enteredEmail.includes('@') && enteredPassword.trim().length > 6
+      )
+    }, 500);
+
+    // Cleanup function
+    // Runs before every execution
+    return () => {
+      console.log('Cleaning!');
+      clearTimeout(identifier);
+    };
   }, [enteredEmail, enteredPassword])
 
   const emailChangeHandler = (event) => {
