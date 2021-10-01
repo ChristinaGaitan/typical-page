@@ -63,23 +63,26 @@ const Login = (props) => {
   const [emailState, dispatchEmail] = useReducer(emailReducer, { value: '', isValid: null });
   const [passwordState, dispatchPassword] = useReducer(passwordReducer, { value: '', isValid: null });
 
-  // useEffect(() => {
-  //   // Debouncing
-  //   const identifier = setTimeout(() => {
-  //     console.log('Checking validity!');
-  //     setFormIsValid(
-  //       enteredEmail.includes('@') && enteredPassword.trim().length > 6
-  //     )
-  //   }, 500);
+  // Alias assigment
+  const { isValid: emailIsValid } = emailState;
+  const { isValid: passwordIsValid } = passwordState;
 
-  //   // Cleanup function
-  //   // Runs before every execution
-  //   return () => {
-  //     console.log('Cleaning!');
-  //     clearTimeout(identifier);
-  //   };
-  // }, [enteredEmail, enteredPassword])
+  useEffect(() => {
+    // Debouncing
+    const identifier = setTimeout(() => {
+      console.log('Checking validity!');
+      setFormIsValid(
+        emailIsValid && passwordIsValid
+      )
+    }, 500);
 
+    // Cleanup function
+    // Runs before every execution
+    return () => {
+      console.log('Cleaning!');
+      clearTimeout(identifier);
+    };
+  }, [emailIsValid, passwordIsValid])
 
   const emailChangeHandler = (event) => {
     // Object with type and value is the action that we send to emailReducer
